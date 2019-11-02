@@ -1,5 +1,6 @@
 from dataset_reader import reading
 from prior import calculate_prior
+from gaussian_distribution import *
 import numpy as np
 
 labels = ['Age','Year of operation','Positive axillary nodes','Survival']
@@ -25,16 +26,16 @@ binary_priors_dict = {}
 binary_priors_dict.update({'first':calculate_prior(len(first_class), len(dataset))})
 binary_priors_dict.update({'second':calculate_prior(len(second_class), len(dataset))})
 
-print ("\nPrior for first Class with " + str(len(first_class)) + " data is " + str(binary_priors_dict['first']))
-print ("\nPrior for second Class with " + str(len(second_class)) + " data is " + str(binary_priors_dict['second']))
-
-print("\n    Covariance Matrices for Binary Classification")
-print ("\nCovariance Matrix for first Class is \n" + str(np.cov(first_class)))
-print ("\nCovariance Matrix for second Class is \n" + str(np.cov(second_class)))
-
-print("\n    Mean Vectors for Binary Classification")
-print ("\nMean Vector for first Class is " + str(np.mean(first_class)))
-print ("\nMean Vector for second Class is " + str(np.mean(second_class)))
+# print ("\nPrior for first Class with " + str(len(first_class)) + " data is " + str(binary_priors_dict['first']))
+# print ("\nPrior for second Class with " + str(len(second_class)) + " data is " + str(binary_priors_dict['second']))
+#
+# print("\n    Covariance Matrices for Binary Classification")
+# print ("\nCovariance Matrix for first Class is \n" + str(np.cov(first_class)))
+# print ("\nCovariance Matrix for second Class is \n" + str(np.cov(second_class)))
+#
+# print("\n    Mean Vectors for Binary Classification")
+# print ("\nMean Vector for first Class is " + str(np.mean(first_class)))
+# print ("\nMean Vector for second Class is " + str(np.mean(second_class)))
 
 
 
@@ -63,17 +64,21 @@ for year in year_of_operation:
 
 print("\n    Priors for Multi-class Classification")
 print("\nYear --   Prior")
+#
+# for item in year_of_operation_dict:
+#     print(str(item) + "   --   " + str(calculate_prior(len(year_of_operation_dict[item]),len(dataset))))
+#
+# print("\n    Covariance Matrices for Multi-class Classification")
+# for item in year_of_operation_dict:
+#     print("\nCovariance Matrix for " + str(item) + " is\n" + str(np.cov(year_of_operation_dict[item])))
+#
+# print("\n    Mean Vectors for Binary Classification")
+#
+# for item in year_of_operation_dict:
+#     print("\nMean Vector for " + str(item) + " is\n" + str(np.mean(year_of_operation_dict[item])))
 
-for item in year_of_operation_dict:
-    print(str(item) + "   --   " + str(calculate_prior(len(year_of_operation_dict[item]),len(dataset))))
+print("NEW DATA        --------------         + " + str(one_dim_calculate(first_class, np.mean(first_class),np.var(first_class))))
 
-print("\n    Covariance Matrices for Multi-class Classification")
-for item in year_of_operation_dict:
-    print("\nCovariance Matrix for " + str(item) + " is\n" + str(np.cov(year_of_operation_dict[item])))
-
-print("\n    Mean Vectors for Binary Classification")
-for item in year_of_operation_dict:
-    print("\nMean Vector for " + str(item) + " is\n" + str(np.mean(year_of_operation_dict[item])))
 
 
 
