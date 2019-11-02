@@ -3,9 +3,10 @@ from prior import calculate_prior
 from gaussian_distribution import *
 import numpy as np
 
-labels = ['Age','Year of operation','Positive axillary nodes','Survival']
+attr = ['Age','Year of operation','Positive axillary nodes','Survival']
 cost_matrix = [[0,2],[1,0]]
-dataset = reading('haberman.data')
+binary_dataset = reading('haberman.data',',','int')
+multi_class_dataset = reading('Data_User_Modeling_Dataset.txt',' ','float')
 
 # for Binary Classification
 # we classify the dataset to #2 Classes
@@ -13,14 +14,15 @@ dataset = reading('haberman.data')
 # Survival Status == 1, belongs to first_class,
 # Survival Status == 2, belongs to second_class
 
+
 first_class = []
 second_class = []
 for item in dataset:
     if item[3] == 1:
-        first_class.append(item)
+        first_class.append(item[0:3])
     elif item[3] == 2:
-        second_class.append(item)
-
+        second_class.append(item[0:3])
+print(first_class)
 print("\n    Priors for Binary Classification")
 binary_priors_dict = {}
 binary_priors_dict.update({'first':calculate_prior(len(first_class), len(dataset))})
@@ -40,11 +42,13 @@ binary_priors_dict.update({'second':calculate_prior(len(second_class), len(datas
 
 
 # for multi-class classification
-# I try to seperate dataset[i]' and add each number to
-# a seperate list to measure the length of each
-# non-duplicate lists. I figured out the best list label for
-# multi-class classification is 'Year Of Operation' with 12
-# non-duplicate items.
+# we can separate the data to four distinct classes
+# actually the identifier for each class is the last
+# field of a row(record) in second data set
+# first_class: last field == 1,
+# second_class: last field == 2,
+# third_class: last field == 3,
+# fourth_class: last field == 4
 
 year_of_operation = []
 for item in dataset:
@@ -77,7 +81,7 @@ print("\nYear --   Prior")
 # for item in year_of_operation_dict:
 #     print("\nMean Vector for " + str(item) + " is\n" + str(np.mean(year_of_operation_dict[item])))
 
-print("NEW DATA        --------------         + " + str(one_dim_calculate(first_class, np.mean(first_class),np.var(first_class))))
+# print("NEW DATA        --------------         + " + str(one_dim_calculate(first_class, np.mean(first_class),np.var(first_class))))
 
 
 
