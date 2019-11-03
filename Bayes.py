@@ -2,8 +2,8 @@ from dataset_reader import reading
 from prior import calculate_prior
 from gaussian_distribution import *
 import numpy as np
+from likelihood import *
 import matplotlib.pyplot as plot
-from calculate_cov import *
 
 attr = ['Age','Year of operation','Positive axillary nodes','Survival']
 cost_matrix = [[0,2],[1,0]]
@@ -16,10 +16,12 @@ multi_class_dataset = reading('Data_User_Modeling_Dataset.txt','\t','float')
 # Survival Status == 1, belongs to ones_class,
 # Survival Status == 2, belongs to twos_class
 
-
 ones_class = []
 twos_class = []
+total_binary_without_labels = []
 binary_labels = []
+
+
 
 # adding data to appropriate class list
 
@@ -28,9 +30,9 @@ for item in binary_dataset:
         ones_class.append(item[0:3])
     elif item[3] == 2:
         twos_class.append(item[0:3])
+    total_binary_without_labels.append(item[0:3])
     binary_labels.append(item[3])
 
-print("\n    Priors for Binary Classification")
 
 # this is a dictionary data type for store
 # data based on Binary Classification
@@ -47,13 +49,23 @@ binary_class_dict.update({'second_prior':calculate_prior(len(twos_class), len(bi
 binary_class_dict.update({'first_covMat': np.cov(np.array(ones_class).T)})
 binary_class_dict.update({'second_covMat': np.cov(np.array(twos_class).T)})
 
+# calculate and total Binary class Covariance
+# matrices to the dictionary
+binary_class_dict.update({'covMat': np.cov(np.array(total_binary_without_labels).T)})
+
 # calculate and add each Binary class mean
 # values to the dictionary
 binary_class_dict.update({'first_mean': np.mean(np.array(ones_class).T, 1)})
 binary_class_dict.update({'second_mean': np.mean(np.array(twos_class).T, 1)})
 
-binary_class_gauss = []
+# calculate and add total Binary class mean
+# values to the dictionary
+binary_class_dict.update({'mean': np.mean(np.array(total_binary_without_labels).T, 1)})
 
+# create and store gaussian distribution in
+# our binary class dictionary
+
+binary_class_gauss = []
 tmp = []
 for item in ones_class:
     tmp.append(d_dim_calculate(item, 3, binary_class_dict['first_mean'], binary_class_dict['first_covMat']))
@@ -64,25 +76,21 @@ for item in twos_class:
     tmp.append(d_dim_calculate(item, 3, binary_class_dict['second_mean'], binary_class_dict['second_covMat']))
 binary_class_dict.update({'second_gauss': tmp})
 
+tmp = []
+for item in total_binary_without_labels:
+    tmp.append(d_dim_calculate(item, 3, binary_class_dict['mean'], binary_class_dict['covMat']))
+binary_class_dict.update({'gauss': tmp})
 
-#print(binary_class_dict)
+
+# calculate and store likelihood for any class member
+# into a list
 
 
-# year_of_operation = []
-# for item in dataset:
-#     if item[1] not in year_of_operation:
-#         year_of_operation.append(item[1])
-#
-# # I use Dictionary in python for storing data
-#
-# year_of_operation_dict = {}
-# for year in year_of_operation:
-#     temp_list = []
-#     for item in dataset:
-#         if item[1] == year:
-#             temp_list.append(item)
-#
-#     year_of_operation_dict.update({year : temp_list})
+binary_class_likelihood = []
+for item in binary_dataset:
+    tmp = calculate_binary_likelihood(4, binary_class_dict['first_prior'], binary_class_dict['second_prior'])
+    binary_class_likelihood.append(tmp)
+
 
 
 # for multi-class classification
@@ -113,7 +121,7 @@ for item in multi_class_dataset:
         fourth_class.append(item[0:5])
     multi_class_labels.append(item[5])
 
-print("\n    Priors for Binary Classification")
+print('Multi Class')
 
 # this is a dictionary data type for store
 # data based on multi-class Classification
