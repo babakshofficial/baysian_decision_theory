@@ -21,8 +21,6 @@ twos_class = []
 total_binary_without_labels = []
 binary_labels = []
 
-
-
 # adding data to appropriate class list
 
 for item in binary_dataset:
@@ -32,7 +30,6 @@ for item in binary_dataset:
         twos_class.append(item[0:3])
     total_binary_without_labels.append(item[0:3])
     binary_labels.append(item[3])
-
 
 # this is a dictionary data type for store
 # data based on Binary Classification
@@ -54,18 +51,18 @@ binary_class_dict.update({'second_covMat': np.cov(np.array(twos_class).T)})
 binary_class_dict.update({'covMat': np.cov(np.array(total_binary_without_labels).T)})
 
 # calculate and add each Binary class mean
-# values to the dictionary
+# vectors to the dictionary
 binary_class_dict.update({'first_mean': np.mean(np.array(ones_class).T, 1)})
 binary_class_dict.update({'second_mean': np.mean(np.array(twos_class).T, 1)})
 
 # calculate and add total Binary class mean
-# values to the dictionary
+# vectors to the dictionary
 binary_class_dict.update({'mean': np.mean(np.array(total_binary_without_labels).T, 1)})
 
 # create and store gaussian distribution in
 # our binary class dictionary
 
-binary_class_gauss = []
+#-----------------------------------------------------------------------------------------------------------------------
 tmp = []
 for item in ones_class:
     tmp.append(d_dim_calculate(item, 3, binary_class_dict['first_mean'], binary_class_dict['first_covMat']))
@@ -80,17 +77,15 @@ tmp = []
 for item in total_binary_without_labels:
     tmp.append(d_dim_calculate(item, 3, binary_class_dict['mean'], binary_class_dict['covMat']))
 binary_class_dict.update({'gauss': tmp})
-
+#-----------------------------------------------------------------------------------------------------------------------
 
 # calculate and store likelihood for any class member
 # into a list
 
-
 binary_class_likelihood = []
-for item in binary_dataset:
-    tmp = calculate_binary_likelihood(4, binary_class_dict['first_prior'], binary_class_dict['second_prior'])
+for item in binary_class_dict['gauss']:
+    tmp = calculate_binary_likelihood(item, binary_class_dict['first_prior'], binary_class_dict['second_prior'])
     binary_class_likelihood.append(tmp)
-
 
 
 # for multi-class classification
@@ -106,6 +101,7 @@ first_class = []
 second_class = []
 third_class = []
 fourth_class = []
+total_multi_class_without_labels = []
 multi_class_labels = []
 
 # adding data to appropriate class list
@@ -119,6 +115,7 @@ for item in multi_class_dataset:
         third_class.append(item[0:5])
     elif item[5] == 4:
         fourth_class.append(item[0:5])
+    total_multi_class_without_labels.append(item[0:5])
     multi_class_labels.append(item[5])
 
 print('Multi Class')
@@ -128,48 +125,65 @@ print('Multi Class')
 
 multi_class_dict = {}
 
-# calculate and add each Binary class priors
+# calculate and add each multi-class priors
 # to the dictionary
 multi_class_dict.update({'first_prior':calculate_prior(len(first_class), len(multi_class_dataset))})
 multi_class_dict.update({'second_prior':calculate_prior(len(second_class), len(multi_class_dataset))})
 multi_class_dict.update({'third_prior':calculate_prior(len(third_class), len(multi_class_dataset))})
 multi_class_dict.update({'fourth_prior':calculate_prior(len(fourth_class), len(multi_class_dataset))})
 
-# calculate and add each Binary class Covariance
+# calculate and add each multi-class Covariance
 # matrices to the dictionary
 multi_class_dict.update({'first_covMat': np.cov(np.array(first_class).T)})
 multi_class_dict.update({'second_covMat': np.cov(np.array(second_class).T)})
 multi_class_dict.update({'third_covMat': np.cov(np.array(third_class).T)})
 multi_class_dict.update({'fourth_covMat': np.cov(np.array(fourth_class).T)})
 
-# calculate and add each Binary class mean
-# values to the dictionary
-
+# calculate and add each multi-class mean
+# vectors to the dictionary
 multi_class_dict.update({'first_mean': np.mean(np.array(first_class).T,1)})
 multi_class_dict.update({'second_mean': np.mean(np.array(second_class).T,1)})
 multi_class_dict.update({'third_mean': np.mean(np.array(third_class).T,1)})
 multi_class_dict.update({'fourth_mean': np.mean(np.array(fourth_class).T,1)})
 
+# calculate and add total multi-class mean
+# vectors to the dictionary
+multi_class_dict.update({'mean': np.mean(np.array(total_multi_class_without_labels).T,1)})
+
+# calculate and add total multi-class Covariance
+# matrices to the dictionary
+multi_class_dict.update({'covMat': np.cov(np.array(total_multi_class_without_labels).T)})
+
 #print(multi_class_dict)
-
-
-multi_class_gauss = []
 
 tmp = []
 for item in first_class:
     tmp.append(d_dim_calculate(item,5,multi_class_dict['first_mean'],multi_class_dict['first_covMat']))
+multi_class_dict.update({'first_gauss': tmp})
 
 tmp = []
 for item in second_class:
     tmp.append(d_dim_calculate(item,5,multi_class_dict['second_mean'],multi_class_dict['second_covMat']))
+multi_class_dict.update({'second_gauss': tmp})
 
 tmp = []
 for item in third_class:
     tmp.append(d_dim_calculate(item,5,multi_class_dict['third_mean'],multi_class_dict['third_covMat']))
+multi_class_dict.update({'third_gauss': tmp})
 
 tmp = []
 for item in fourth_class:
     tmp.append(d_dim_calculate(item,5,multi_class_dict['fourth_mean'],multi_class_dict['fourth_covMat']))
+multi_class_dict.update({'fourth_gauss': tmp})
+
+tmp = []
+for item in total_multi_class_without_labels:
+    tmp.append(d_dim_calculate(item,5,multi_class_dict['mean'],multi_class_dict['covMat']))
+multi_class_dict.update({'gauss': tmp})
+
+print('binary class')
+for i in total_binary_without_labels:
+    print(i)
 
 
 
