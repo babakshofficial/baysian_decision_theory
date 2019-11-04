@@ -1,22 +1,25 @@
 def make_binary_confusion_matrix(real, model):
     length = len(real)
-    # positive for class label 1
-    # negative for class label 2
-    TP = 0
-    TN = 0
-    FP = 0
-    FN = 0
+    # at class_mn, m is real and n is predicted
+    # 1 for class label 1
+    # 2 for class label 2
+    class_11, class_12 = 0, 0
+    class_21, class_22 = 0, 0
+
+    # 11, 22
     for i in range(length):
         if int(real[i]) == 1 and int(model[i]) == 1:
-            TP = TP + 1
+            class_11 = class_11 + 1
         elif int(real[i]) == 2 and int(model[i]) == 2:
-            TN = TN + 1
-
+            class_22 = class_22 + 1
+    # 12, 21
+    for i in range(length):
         if int(real[i]) == 1 and int(model[i]) == 2:
-            FP = FP + 1
+            class_12 = class_12 + 1
         elif int(real[i]) == 2 and int(model[i]) == 1:
-            FN = FN + 1
-    return [[TP,FN],[FP,TN]]
+            class_21 = class_21 + 1
+
+    return [[class_11, class_12],[class_21, class_22]]
 
 def make_multi_class_confusion_matrix(real, model):
     length = len(real)
@@ -25,10 +28,10 @@ def make_multi_class_confusion_matrix(real, model):
     # 2 for class label 2
     # 3 for class label 3
     # 4 for class label 4
-    class_11, class_12, class_13, class_14 = 0,0,0,0
-    class_21, class_22, class_23, class_24 = 0,0,0,0
-    class_31, class_32, class_33, class_34 = 0,0,0,0
-    class_41, class_42, class_43, class_44 = 0,0,0,0
+    class_11, class_12, class_13, class_14 = 0, 0, 0, 0
+    class_21, class_22, class_23, class_24 = 0, 0, 0, 0
+    class_31, class_32, class_33, class_34 = 0, 0, 0, 0
+    class_41, class_42, class_43, class_44 = 0, 0, 0, 0
 
     # 11,22,33,44
     for i in range(length):
