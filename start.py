@@ -4,6 +4,7 @@ from gaussian_distribution import *
 import numpy as np
 from likelihood import *
 import matplotlib.pyplot as plot
+from ML import *
 
 attr = ['Age','Year of operation','Positive axillary nodes','Survival']
 cost_matrix = [[0,2],[1,0]]
@@ -59,28 +60,6 @@ binary_class_dict.update({'second_mean': np.mean(np.array(twos_class).T, 1)})
 # vectors to the dictionary
 binary_class_dict.update({'mean': np.mean(np.array(total_binary_without_labels).T, 1)})
 
-# create and store gaussian distribution in
-# our binary class dictionary
-
-# #-----------------------------------------------------------------------------------------------------------------------
-# tmp = []
-# for item in ones_class:
-#     tmp.append(d_dim_calculate(item, 3, binary_class_dict['first_mean'], binary_class_dict['first_covMat']))
-# binary_class_dict.update({'first_gauss': tmp})
-#
-# tmp = []
-# for item in twos_class:
-#     tmp.append(d_dim_calculate(item, 3, binary_class_dict['second_mean'], binary_class_dict['second_covMat']))
-# binary_class_dict.update({'second_gauss': tmp})
-#
-# tmp = []
-# for item in total_binary_without_labels:
-#     tmp.append(d_dim_calculate(item, 3, binary_class_dict['mean'], binary_class_dict['covMat']))
-# binary_class_dict.update({'gauss': tmp})
-# #-----------------------------------------------------------------------------------------------------------------------
-
-
-binary_P = []
 binary_likelihood = []
 for item in total_binary_without_labels:
     tmp = []
@@ -92,22 +71,8 @@ for item in total_binary_without_labels:
                                3,
                                binary_class_dict['second_mean'],
                                binary_class_dict['second_covMat']))
-    binary_P.append(tmp)
+    binary_likelihood.append(tmp)
 
-for item in binary_P:
-    binary_likelihood.append(calculate_binary_likelihood(item,
-                                                         binary_class_dict['first_prior'],
-                                                         binary_class_dict['second_prior']))
-
-# calculate and store likelihood for any class member
-# into a list
-
-# #-----------------------------------------------------------------------------------------------------------------------
-# binary_class_likelihood = []
-# for item in binary_class_dict['gauss']:
-#     tmp = calculate_binary_likelihood(item, binary_class_dict['first_prior'], binary_class_dict['second_prior'])
-#     binary_class_likelihood.append(tmp)
-# #-----------------------------------------------------------------------------------------------------------------------
 
 # for multi-class classification
 # we can separate the data to four distinct classes
@@ -175,34 +140,6 @@ multi_class_dict.update({'mean': np.mean(np.array(total_multi_class_without_labe
 # matrices to the dictionary
 multi_class_dict.update({'covMat': np.cov(np.array(total_multi_class_without_labels).T)})
 
-# # #-----------------------------------------------------------------------------------------------------------------------
-# tmp = []
-# for item in first_class:
-#     tmp.append(d_dim_calculate(item,5,multi_class_dict['first_mean'],multi_class_dict['first_covMat']))
-# multi_class_dict.update({'first_gauss': tmp})
-#
-# tmp = []
-# for item in second_class:
-#     tmp.append(d_dim_calculate(item,5,multi_class_dict['second_mean'],multi_class_dict['second_covMat']))
-# multi_class_dict.update({'second_gauss': tmp})
-#
-# tmp = []
-# for item in third_class:
-#     tmp.append(d_dim_calculate(item,5,multi_class_dict['third_mean'],multi_class_dict['third_covMat']))
-# multi_class_dict.update({'third_gauss': tmp})
-#
-# tmp = []
-# for item in fourth_class:
-#     tmp.append(d_dim_calculate(item,5,multi_class_dict['fourth_mean'],multi_class_dict['fourth_covMat']))
-# multi_class_dict.update({'fourth_gauss': tmp})
-#
-# tmp = []
-# for item in total_multi_class_without_labels:
-#     tmp.append(d_dim_calculate(item,5,multi_class_dict['mean'],multi_class_dict['covMat']))
-# multi_class_dict.update({'gauss': tmp})
-# # #-----------------------------------------------------------------------------------------------------------------------
-
-multi_class_P = []
 multi_class_likelihood = []
 for item in total_multi_class_without_labels:
     tmp = []
@@ -222,15 +159,11 @@ for item in total_multi_class_without_labels:
                                5,
                                multi_class_dict['fourth_mean'],
                                multi_class_dict['fourth_covMat']))
-    multi_class_P.append(tmp)
+    multi_class_likelihood.append(tmp)
 
-for item in multi_class_P:
-    multi_class_likelihood.append(
-        calculate_multi_class_likelihood(item,
-                                         multi_class_dict['first_prior'],
-                                         multi_class_dict['second_prior'],
-                                         multi_class_dict['third_prior'],
-                                         multi_class_dict['fourth_prior']))
+for item in multi_class_likelihood:
+    print(calculate_multi_class_ML_test(item))
+
 
 
 
