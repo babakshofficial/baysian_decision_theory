@@ -2,20 +2,24 @@ from dataset_reader import reading
 from prior import calculate_prior
 from gaussian_distribution import *
 import numpy as np
-from likelihood import *
 import matplotlib.pyplot as plot
 from ML import *
+from MAP import *
+from Bayes import *
+from confusion_matrix import *
 
 attr = ['Age','Year of operation','Positive axillary nodes','Survival']
 cost_matrix = [[0,2],[1,0]]
 binary_dataset = reading('haberman.data',',','int')
 multi_class_dataset = reading('Data_User_Modeling_Dataset.txt','\t','float')
 
+#----------------------------------------------------
 # for Binary Classification
 # we classify the dataset to #2 Classes
 # based on Survival Status.
 # Survival Status == 1, belongs to ones_class,
 # Survival Status == 2, belongs to twos_class
+#----------------------------------------------------
 
 ones_class = []
 twos_class = []
@@ -73,7 +77,33 @@ for item in total_binary_without_labels:
                                binary_class_dict['second_covMat']))
     binary_likelihood.append(tmp)
 
+binary_ML_labels = []
+binary_MAP_labels = []
+binary_BAYES_labels = []
 
+for item in binary_likelihood:
+    binary_ML_labels.append(calculate_binary_ML_test(item))
+    binary_MAP_labels.append(calculate_binary_MAP_test(binary_class_dict['first_prior'],
+                                                       binary_class_dict['second_prior'],
+                                                       item))
+    binary_BAYES_labels.append(calculate_binary_BAYES_test(cost_matrix,
+                                                           binary_class_dict['first_prior'],
+                                                           binary_class_dict['second_prior'],
+                                                           item))
+print('Binary')
+print(binary_labels)
+print(binary_ML_labels)
+print(binary_MAP_labels)
+print(binary_BAYES_labels)
+print_diffrences(binary_labels, binary_ML_labels, binary_BAYES_labels, binary_MAP_labels)
+print('ML')
+print(make_binary_confusion_matrix(binary_labels, binary_ML_labels))
+print('MAP')
+print(make_binary_confusion_matrix(binary_labels, binary_MAP_labels))
+print('BAYES')
+print(make_binary_confusion_matrix(binary_labels, binary_BAYES_labels))
+
+#----------------------------------------------------
 # for multi-class classification
 # we can separate the data to four distinct classes
 # actually the identifier for each class is the last
@@ -82,6 +112,7 @@ for item in total_binary_without_labels:
 # second_class: last field == 2,
 # third_class: last field == 3,
 # fourth_class: last field == 4
+#----------------------------------------------------
 
 first_class = []
 second_class = []
@@ -161,10 +192,44 @@ for item in total_multi_class_without_labels:
                                multi_class_dict['fourth_covMat']))
     multi_class_likelihood.append(tmp)
 
+# for item in multi_class_likelihood:
+#     print(calculate_multi_class_MAP_test(multi_class_dict['first_prior'],
+#                                          multi_class_dict['second_prior'],
+#                                          multi_class_dict['third_prior'],
+#                                          multi_class_dict['fourth_prior'],
+#                                          item))
+
+multi_class_ML_labels = []
+multi_class_MAP_labels = []
+multi_class_BAYES_labels = []
+
 for item in multi_class_likelihood:
-    print(calculate_multi_class_ML_test(item))
-
-
+    multi_class_ML_labels.append(calculate_multi_class_ML_test(item))
+    multi_class_MAP_labels.append(calculate_multi_class_MAP_test(multi_class_dict['first_prior'],
+                                                                 multi_class_dict['second_prior'],
+                                                                 multi_class_dict['third_prior'],
+                                                                 multi_class_dict['second_prior'],
+                                                                 item))
+    multi_class_BAYES_labels.append(calculate_multi_class_BAYES_test(cost_matrix,
+                                                                     multi_class_dict['first_prior'],
+                                                                     multi_class_dict['second_prior'],
+                                                                     multi_class_dict['third_prior'],
+                                                                     multi_class_dict['second_prior'],
+                                                                     item))
+print(multi_class_labels)
+print(multi_class_ML_labels)
+print(multi_class_MAP_labels)
+print(multi_class_BAYES_labels)
+print_diffrences(multi_class_labels,
+                 multi_class_ML_labels,
+                 multi_class_BAYES_labels,
+                 multi_class_MAP_labels)
+print('ML')
+print(make_multi_class_confusion_matrix(multi_class_labels, multi_class_ML_labels))
+print('MAP')
+print(make_multi_class_confusion_matrix(multi_class_labels, multi_class_MAP_labels))
+print('BAYES')
+print(make_multi_class_confusion_matrix(multi_class_labels, multi_class_BAYES_labels))
 
 
 
