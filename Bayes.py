@@ -5,7 +5,7 @@ def calculate_binary_BAYES_test(cost_matrix, pc1, pc2, likes):
     landa_21 = cost_matrix[1][0]
     landa_22 = cost_matrix[1][1]
     first_greatness = likeC1 / likeC2
-    second_greatness = ((landa_12 - landa_22) * pc2) / ( (landa_21 - landa_11) * pc1)
+    second_greatness = ((landa_12 - landa_22) / (landa_21 - landa_11)) * ( pc2 / pc1)
     if first_greatness > second_greatness:
         return 1
     return 2
@@ -55,7 +55,7 @@ def calculate_multi_class_BAYES_test(cost_matrix, pc1, pc2, pc3, pc4, likes):
 
 #   winner between C2 , C3
     elif greatness1 == 2 and greatness2 == 3:
-        first_greatness = likeC1 / likeC4
+        first_greatness = likeC2 / likeC3
         second_greatness = ((landa_12 - landa_22) * pc3) / ((landa_21 - landa_11) * pc2)
         if first_greatness > second_greatness:
             greatness = 2
