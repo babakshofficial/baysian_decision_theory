@@ -87,6 +87,6 @@ def make_multi_class_confusion_matrix(real, model):
 
 def print_diffrences(real, ml, bayes, map):
     length = len(real)
-    print('Real' + '\t' + 'ML' + '\t' + 'Bayes' + '\t' + 'MAP')
+    print('Real' + '\t' + 'ML' + '\t' + 'MAP' + '\t' + 'Bayes')
     for item in range(length):
-        print(str(int(real[item])) + '\t' + str(int(real[item]) == ml[item]) + '\t' + str(int(real[item]) == bayes[item]) + '\t' + str(int(real[item]) == map[item]))
+        print(str(int(real[item])) + '\t' + str(int(real[item]) == ml[item]) + '\t' + str(int(real[item]) == map[item]) + '\t' + str(int(real[item]) == bayes[item]))
