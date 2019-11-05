@@ -11,13 +11,15 @@ def calculate_multi_class_MAP_test(pc1, pc2, pc3, pc4, likes):
     greatness2 = 0
     greatness = 0
     likeC1, likeC2, likeC3, likeC4 = likes[0], likes[1], likes[2], likes[3]
+
 #   the winner between C1 and C2
     first_greatness = likeC1 / likeC2
     second_greatness = pc2 / pc1
     if first_greatness > second_greatness:
-        greatness1 =  1
+        greatness1 = 1
     else:
         greatness1 = 2
+
 #   the winner between C3 and C4
     first_greatness = likeC3 / likeC4
     second_greatness = pc4 / pc3
@@ -25,6 +27,7 @@ def calculate_multi_class_MAP_test(pc1, pc2, pc3, pc4, likes):
         greatness2 = 3
     else:
         greatness2 = 4
+
 #   the winner between C1 and C3
     if greatness1 == 1 and greatness2 == 3:
         first_greatness = likeC1 / likeC3
@@ -33,7 +36,8 @@ def calculate_multi_class_MAP_test(pc1, pc2, pc3, pc4, likes):
             greatness = 1
         else:
             greatness = 3
-#   the winner between C1 and C2
+
+#   the winner between C1 and C4
     elif greatness1 == 1 and greatness2 == 4:
         first_greatness = likeC1 / likeC4
         second_greatness = pc4 / pc1
@@ -41,6 +45,7 @@ def calculate_multi_class_MAP_test(pc1, pc2, pc3, pc4, likes):
             greatness = 1
         else:
             greatness = 4
+
 #   the winner between C2 and C3
     elif greatness1 == 2 and greatness2 == 3:
         first_greatness = likeC2 / likeC3
@@ -49,6 +54,7 @@ def calculate_multi_class_MAP_test(pc1, pc2, pc3, pc4, likes):
             greatness = 2
         else:
             greatness = 3
+
 #   the winner between C2 and C4
     elif greatness1 == 2 and greatness2 == 4:
         first_greatness = likeC2 / likeC4
@@ -57,5 +63,6 @@ def calculate_multi_class_MAP_test(pc1, pc2, pc3, pc4, likes):
             greatness = 2
         else:
             greatness = 4
+
 #   the winner between C1, C2, C3 and C4
     return greatness
