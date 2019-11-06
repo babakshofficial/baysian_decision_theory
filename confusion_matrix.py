@@ -1,3 +1,10 @@
+
+# created by Babak Shahriari
+# this class make confusion matrix for each method
+# for both binary and multi-class classification
+# the last function is usable for when you
+# want to compare the real label and prediction label
+
 def make_binary_confusion_matrix(real, model):
     length = len(real)
     # at class_mn, m is real and n is predicted
