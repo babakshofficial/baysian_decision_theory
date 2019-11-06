@@ -1,3 +1,9 @@
+
+# created by Babak Shahriari
+# this class at last, classify the data based on
+# cost matrix, priors and likelihoods for both binary
+# and multi-class classification
+
 def calculate_binary_BAYES_test(cost_matrix, pc1, pc2, likes):
     likeC1, likeC2 = likes[0], likes[1]
     landa_11 = cost_matrix[0][0]
