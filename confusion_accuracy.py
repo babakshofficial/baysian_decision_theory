@@ -1,3 +1,9 @@
+
+# created by Babak Shahriari
+# this function calculate each classification
+# method accuracy based on the true predictions
+# that the code made.
+
 def calculate_accuracy(confusion_matrix):
     True_values = 0
     total_values = 0
