@@ -3,7 +3,7 @@ import math
 
 # created by Babak Shahriari
 # this class make likelihood values based on gaussian
-# distribution for when Covariance matrix si singular
+# distribution for when Covariance matrix is singular
 
 def singular(data, mean, cov_matrix):
     eig_values = np.linalg.eig(np.multiply((2 * math.pi), cov_matrix))

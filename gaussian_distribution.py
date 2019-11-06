@@ -1,6 +1,10 @@
 import numpy as np
 import math
 
+# created by Babak Shahriari
+# this class make likelihood values based on gaussian
+# distribution for when Covariance matrix isn't singular
+
 def d_dim_calculate(x, dim, mean, cov_matrix):
     coef1 = (2 * math.pi) ** (dim / 2)
     coef2 = np.linalg.det(cov_matrix) ** (1/2)
