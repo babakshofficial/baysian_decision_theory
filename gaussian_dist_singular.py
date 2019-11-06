@@ -1,6 +1,10 @@
 import numpy as np
 import math
 
+# created by Babak Shahriari
+# this class make likelihood values based on gaussian
+# distribution for when Covariance matrix si singular
+
 def singular(data, mean, cov_matrix):
     eig_values = np.linalg.eig(np.multiply((2 * math.pi), cov_matrix))
     np.linalg.det(np.multiply(eig_values[0],eig_values[1]))
