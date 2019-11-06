@@ -1,3 +1,8 @@
+
+# created by Babak Shahriari
+# this class calculate each class accuracy based on
+# the true predictions that the code made
+
 def calculate_class_accuracy(real, model, class_number):
     length = len(real)
     true_predictions = 0
