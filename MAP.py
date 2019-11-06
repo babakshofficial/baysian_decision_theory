@@ -1,3 +1,9 @@
+
+# created by Babak Shahriari
+# this class at last, classify the data based on
+# priors and likelihoods for both binary and
+# multi-class classification (MAP-method)
+
 # posterior Way
 def calculate_binary_MAP_test(pc1, pc2, likes):
     likeC1, likeC2 = likes[0], likes[1]

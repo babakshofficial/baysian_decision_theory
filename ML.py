@@ -1,3 +1,10 @@
+
+# created by Babak Shahriari
+# this class at last, classify the data based on
+# likelihoods for both binary and multi-class classification
+
+# this function search a dictionary vice-versa
+# and find a key based on value
 def find_key_by_value(dictionary, value):
     key = []
     dict_items = dictionary.items()
