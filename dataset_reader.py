@@ -1,3 +1,8 @@
+
+# created by Babak Shahriari
+# this function read the dataset from file
+# based on file path, splitter word and data type
+
 def reading(path,splitter,kind):
 
     # matrix initialization
