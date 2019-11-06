@@ -1,12 +1,15 @@
 from dataset_reader import reading
 from prior import calculate_prior
 from gaussian_distribution import *
+from gaussian_dist_singular import *
 import numpy as np
 import matplotlib.pyplot as plot
 from ML import *
 from MAP import *
 from Bayes import *
 from confusion_matrix import *
+from confusion_accuracy import *
+from class_accuracy import *
 
 attr = ['Age','Year of operation','Positive axillary nodes','Survival']
 cost_matrix = [[0,2],[1,0]]
@@ -90,18 +93,44 @@ for item in binary_likelihood:
                                                            binary_class_dict['first_prior'],
                                                            binary_class_dict['second_prior'],
                                                            item))
-print('Binary')
-print(binary_labels)
-print(binary_ML_labels)
-print(binary_MAP_labels)
-print(binary_BAYES_labels)
+print('Binary Classification')
+
+# print(binary_labels)
+# print(binary_ML_labels)
+# print(binary_MAP_labels)
+# print(binary_BAYES_labels)
+
 print_diffrences(binary_labels, binary_ML_labels, binary_BAYES_labels, binary_MAP_labels)
-print('ML')
-print(make_binary_confusion_matrix(binary_labels, binary_ML_labels))
-print('MAP')
-print(make_binary_confusion_matrix(binary_labels, binary_MAP_labels))
-print('BAYES')
-print(make_binary_confusion_matrix(binary_labels, binary_BAYES_labels))
+
+print('ML Confusion Matrix')
+
+binary_ML = make_binary_confusion_matrix(binary_labels, binary_ML_labels)
+for item in binary_ML:
+    print(item)
+
+print('Binary ML accuracy for Class 1 is: ', str(calculate_class_accuracy(binary_labels, binary_ML_labels,1)))
+print('Binary ML accuracy for Class 2 is: ', str(calculate_class_accuracy(binary_labels, binary_ML_labels,2)))
+print('Accuracy for Binary Classification ML is: ', calculate_accuracy(binary_ML))
+
+print('MAP Confusion Matrix')
+
+binary_MAP = make_binary_confusion_matrix(binary_labels, binary_MAP_labels)
+for item in binary_MAP:
+    print(item)
+
+print('Binary MAP accuracy for Class 1 is: ', str(calculate_class_accuracy(binary_labels, binary_MAP_labels,1)))
+print('Binary MAP accuracy for Class 2 is: ', str(calculate_class_accuracy(binary_labels, binary_MAP_labels,2)))
+print('Accuracy for Binary Classification MAP is: ', calculate_accuracy(binary_MAP))
+
+print('BAYES Confusion Matrix')
+
+binary_Bayes = make_binary_confusion_matrix(binary_labels, binary_BAYES_labels)
+for item in binary_Bayes:
+    print(item)
+
+print('Binary Bayes accuracy for Class 1 is: ', str(calculate_class_accuracy(binary_labels, binary_BAYES_labels,1)))
+print('Binary Bayes accuracy for Class 2 is: ', str(calculate_class_accuracy(binary_labels, binary_BAYES_labels,2)))
+print('Accuracy for Binary Classification Bayes is: ', calculate_accuracy(binary_Bayes))
 
 #----------------------------------------------------
 # for multi-class classification
@@ -135,7 +164,7 @@ for item in multi_class_dataset:
     total_multi_class_without_labels.append(item[0:5])
     multi_class_labels.append(item[5])
 
-print('Multi Class')
+print('Multi Class Classification')
 
 # this is a dictionary data type for store
 # data based on multi-class Classification
@@ -203,34 +232,84 @@ multi_class_ML_labels = []
 multi_class_MAP_labels = []
 multi_class_BAYES_labels = []
 
+
 for item in multi_class_likelihood:
     multi_class_ML_labels.append(calculate_multi_class_ML_test(item))
-    multi_class_MAP_labels.append(calculate_multi_class_MAP_test(multi_class_dict['first_prior'],
-                                                                 multi_class_dict['second_prior'],
-                                                                 multi_class_dict['third_prior'],
-                                                                 multi_class_dict['second_prior'],
-                                                                 item))
+
+    # in here I use Bayes Calculation Function with cost matrix = [0,1],[1,0]]
+    # and it is as the same as MAP Calculation Function
+    # both of these two block of code creates same result
+    # THE first block is using MAP decision Rule Function
+    # THE second block is using Bayes Decision Function with cost matrix = [0,1],[1,0]]
+
+    # multi_class_MAP_labels.append(calculate_multi_class_MAP_test(multi_class_dict['first_prior'],
+    #                                                              multi_class_dict['second_prior'],
+    #                                                              multi_class_dict['third_prior'],
+    #                                                              multi_class_dict['fourth_prior'],
+    #                                                              item))
+    multi_class_MAP_labels.append(calculate_multi_class_BAYES_test([[0,1],[1,0]],
+                                                                     multi_class_dict['first_prior'],
+                                                                     multi_class_dict['second_prior'],
+                                                                     multi_class_dict['third_prior'],
+                                                                     multi_class_dict['fourth_prior'],
+                                                                     item))
     multi_class_BAYES_labels.append(calculate_multi_class_BAYES_test(cost_matrix,
                                                                      multi_class_dict['first_prior'],
                                                                      multi_class_dict['second_prior'],
                                                                      multi_class_dict['third_prior'],
-                                                                     multi_class_dict['second_prior'],
+                                                                     multi_class_dict['fourth_prior'],
                                                                      item))
-print(multi_class_labels)
-print(multi_class_ML_labels)
-print(multi_class_MAP_labels)
-print(multi_class_BAYES_labels)
-print_diffrences(multi_class_labels,
-                 multi_class_ML_labels,
-                 multi_class_BAYES_labels,
-                 multi_class_MAP_labels)
-print('ML')
-print(make_multi_class_confusion_matrix(multi_class_labels, multi_class_ML_labels))
-print('MAP')
-print(make_multi_class_confusion_matrix(multi_class_labels, multi_class_MAP_labels))
-print('BAYES')
-print(make_multi_class_confusion_matrix(multi_class_labels, multi_class_BAYES_labels))
 
+# print(multi_class_labels)
+# print(multi_class_ML_labels)
+# print(multi_class_MAP_labels)
+# print(multi_class_BAYES_labels)
+
+# print_diffrences(multi_class_labels,
+#                  multi_class_ML_labels,
+#                  multi_class_BAYES_labels,
+#                  multi_class_MAP_labels)
+
+print('ML Confusion Matrix')
+multi_class_ML = make_multi_class_confusion_matrix(multi_class_labels, multi_class_ML_labels)
+for item in multi_class_ML:
+    print(item)
+
+print('Multi-Class ML accuracy for Class 1 is: ', str(calculate_class_accuracy(multi_class_labels, multi_class_ML_labels,1)))
+print('Multi-Class ML accuracy for Class 2 is: ', str(calculate_class_accuracy(multi_class_labels, multi_class_ML_labels,2)))
+print('Multi-Class ML accuracy for Class 3 is: ', str(calculate_class_accuracy(multi_class_labels, multi_class_ML_labels,3)))
+print('Multi-Class ML accuracy for Class 4 is: ', str(calculate_class_accuracy(multi_class_labels, multi_class_ML_labels,4)))
+
+print('Accuracy for Multi-class Classification ML is: ', calculate_accuracy(multi_class_ML))
+
+
+print('MAP Confusion Matrix')
+multi_class_MAP = make_multi_class_confusion_matrix(multi_class_labels, multi_class_MAP_labels)
+for item in multi_class_MAP:
+    print(item)
+
+print('Multi-Class MAP accuracy for Class 1 is: ', str(calculate_class_accuracy(multi_class_labels, multi_class_MAP_labels,1)))
+print('Multi-Class MAP accuracy for Class 2 is: ', str(calculate_class_accuracy(multi_class_labels, multi_class_MAP_labels,2)))
+print('Multi-Class MAP accuracy for Class 3 is: ', str(calculate_class_accuracy(multi_class_labels, multi_class_MAP_labels,3)))
+print('Multi-Class MAP accuracy for Class 4 is: ', str(calculate_class_accuracy(multi_class_labels, multi_class_MAP_labels,4)))
+
+print('Accuracy for Multi-class Classification MAP is: ', calculate_accuracy(multi_class_MAP))
+
+
+print('BAYES Confusion Matrix')
+multi_class_Bayes = make_multi_class_confusion_matrix(multi_class_labels, multi_class_BAYES_labels)
+for item in multi_class_Bayes:
+    print(item)
+
+print('Multi-Class Bayes accuracy for Class 1 is: ', str(calculate_class_accuracy(multi_class_labels, multi_class_BAYES_labels,1)))
+print('Multi-Class Bayes accuracy for Class 2 is: ', str(calculate_class_accuracy(multi_class_labels, multi_class_BAYES_labels,2)))
+print('Multi-Class Bayes accuracy for Class 3 is: ', str(calculate_class_accuracy(multi_class_labels, multi_class_BAYES_labels,3)))
+print('Multi-Class Bayes accuracy for Class 4 is: ', str(calculate_class_accuracy(multi_class_labels, multi_class_BAYES_labels,4)))
+
+print('Accuracy for Multi-class Classification Bayes is: ', calculate_accuracy(multi_class_Bayes))
+
+
+# print(singular(total_binary_without_labels[0],binary_class_dict['first_mean'],[[1,2,3],[2,4,6],[3,5,6]] ))
 
 
 

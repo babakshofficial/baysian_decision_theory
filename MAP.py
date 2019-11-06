@@ -1,16 +1,19 @@
+# posterior Way
 def calculate_binary_MAP_test(pc1, pc2, likes):
     likeC1, likeC2 = likes[0], likes[1]
-    first_greatness = likeC1 / likeC2
-    second_greatness = pc2 / pc1
+    first_greatness = likeC1 * pc1
+    second_greatness = pc2 * likeC2
     if first_greatness > second_greatness:
         return 1
     return 2
 
+# likelihood Way
 def calculate_multi_class_MAP_test2(pc1, pc2, pc3, pc4, likes):
     greatness1 = 0
     greatness2 = 0
     greatness = 0
     likeC1, likeC2, likeC3, likeC4 = likes[0], likes[1], likes[2], likes[3]
+
 
 #   the winner between C1 and C2
     first_greatness = likeC1 / likeC2
@@ -67,6 +70,8 @@ def calculate_multi_class_MAP_test2(pc1, pc2, pc3, pc4, likes):
 #   the winner between C1, C2, C3 and C4
     return greatness
 
+
+# posterior Way
 def calculate_multi_class_MAP_test(pc1, pc2, pc3, pc4, likes):
     greatness1 = 0
     greatness2 = 0
@@ -129,4 +134,4 @@ def calculate_multi_class_MAP_test(pc1, pc2, pc3, pc4, likes):
 #   the winner between C1, C2, C3 and C4
     if greatness == (result.index(max(result)) + 1):
         return greatness
-    return esult.index(max(result)) + 1
+    return result.index(max(result)) + 1
