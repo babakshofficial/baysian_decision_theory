@@ -11,6 +11,9 @@ from confusion_matrix import *
 from confusion_accuracy import *
 from class_accuracy import *
 
+# created by Babak Shahriari
+# this is main function
+
 attr = ['Age','Year of operation','Positive axillary nodes','Survival']
 cost_matrix = [[0,2],[1,0]]
 binary_dataset = reading('haberman.data',',','int')
