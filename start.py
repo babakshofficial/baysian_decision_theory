@@ -235,7 +235,6 @@ multi_class_ML_labels = []
 multi_class_MAP_labels = []
 multi_class_BAYES_labels = []
 
-
 for item in multi_class_likelihood:
     multi_class_ML_labels.append(calculate_multi_class_ML_test(item))
 
