@@ -1,6 +1,6 @@
 # Bayesian Decision Theory
 
-This project is an implementation of Bayesian decision theory concepts, using Python to explore probabilistic classification models and performance metrics. The project includes modules for Bayesian inference, maximum likelihood (ML) estimation, maximum a posteriori (MAP) estimation, and performance assessment through classification accuracy and confusion matrices. This repository is ideal for those looking to deepen their understanding of Bayesian approaches in machine learning.
+This project provides an implementation of Bayesian decision theory concepts using Python, focusing on probabilistic classification models, Gaussian distribution analysis, and model evaluation metrics. The repository includes modules for Bayesian inference, maximum likelihood estimation, maximum a posteriori estimation, and performance metrics like classification accuracy and confusion matrices.
 
 ## Table of Contents
 - [Features](#features)
@@ -8,16 +8,14 @@ This project is an implementation of Bayesian decision theory concepts, using Py
 - [Usage](#usage)
 - [Files and Modules](#files-and-modules)
 - [Contributing](#contributing)
-- [License](#license)
-- [Acknowledgments](#acknowledgments)
 
 ## Features
 - **Bayesian Classifiers**: Implements MAP and ML estimations for Bayesian inference.
-- **Gaussian Distribution Analysis**: Functions to analyze Gaussian distributions in classification contexts.
-- **Performance Evaluation**: Modules for calculating classification accuracy and generating confusion matrices.
+- **Gaussian Distribution Analysis**: Functions for Gaussian distribution, both singular and multivariate.
+- **Performance Evaluation**: Calculates classification accuracy and generates confusion matrices for model evaluation.
 
 ## Installation
-Follow these steps to set up the project on your local machine:
+To set up the project locally:
 
 1. **Clone the repository**:
    ```bash
@@ -25,14 +23,14 @@ Follow these steps to set up the project on your local machine:
    cd baysian_decision_theory
    ```
 2. **Install dependencies**:
-   Ensure you have Python 3 installed. Install necessary dependencies using:
+   Make sure Python 3 is installed. Use the following to install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
-   If a `requirements.txt` file is not present, manually install key libraries, such as NumPy.
+   If a `requirements.txt` file is not available, install necessary libraries manually (e.g., `numpy`).
 
 ## Usage
-To use the various functions of the Bayesian Decision Theory project, you can run the individual scripts as follows:
+Each module is designed to be run individually or imported for custom workflows:
 
 1. **Bayesian Inference**:
    ```bash
@@ -46,45 +44,40 @@ To use the various functions of the Bayesian Decision Theory project, you can ru
    ```bash
    python MAP.py
    ```
-4. **Classification Accuracy and Confusion Matrix**:
+4. **Classification Accuracy**:
    ```bash
    python class_accuracy.py
    ```
    
 ### Example Usage
-For a quick example, you can use the Bayesian inference module directly in Python:
+You can also use individual functions within Python:
 
 ```python
-from Bayes import bayesian_classifier
+from gaussian_distribution import Gaussian
 
-# Example data input
-input_data = [...]  # Add your input data here
-
-# Running the classifier
-result = bayesian_classifier(input_data)
-print("Classification result:", result)
+# Example usage for Gaussian distribution
+gauss = Gaussian(mean=0, variance=1)
+sample = gauss.sample()
+print("Generated sample:", sample)
 ```
 
 ## Files and Modules
-The repository includes the following primary files:
+Here’s an overview of the key files and modules:
 
-- `Bayes.py`: Functions for Bayesian inference using MAP and ML methods.
-- `ML.py`: Module for maximum likelihood estimation.
-- `MAP.py`: Module for maximum a posteriori estimation.
-- `class_accuracy.py`: Calculates classification accuracy.
-- `confusion_matrix.py`: Generates a confusion matrix for classifier performance evaluation.
-- `Data_User_Modeling_Dataset.txt`: Sample dataset for testing and evaluating models.
-
+- `Bayes.py`: Functions for Bayesian inference using MAP and ML estimations.
+- `ML.py`: Implements maximum likelihood estimation.
+- `MAP.py`: Contains functions for maximum a posteriori estimation.
+- `class_accuracy.py`: Module to calculate classification accuracy.
+- `confusion_matrix.py`: Generates a confusion matrix to evaluate classifier performance.
+- `dataset_reader.py`: Reads and preprocesses datasets for model input.
+- `gaussian_distribution.py`: Implements Gaussian (normal) distribution functions, supporting both sampling and density calculations.
+- `gaussian_dist_singular.py`: Specializes in singular Gaussian distributions, useful for lower-dimensional data.
+- `Data_User_Modeling_Dataset.txt`: Sample dataset for testing model performance.
+  
 ## Contributing
-Contributions are welcome! If you'd like to contribute:
+Contributions are welcome! To contribute:
 1. Fork the repository.
 2. Create a new branch for your feature or bug fix.
 3. Make your changes and submit a pull request.
 
-Please ensure your code follows good coding standards and includes clear comments.
-
-## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
-
-## Acknowledgments
-Special thanks to the creators and maintainers of the datasets and resources referenced in this project.
+Please follow standard coding practices and include comments for clarity.
